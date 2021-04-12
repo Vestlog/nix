@@ -18,11 +18,12 @@ func main() {
 	if err != nil {
 		log.Fatal("Error creating client:", err)
 	}
-	db, err := nix.CreateSQLiteDatabase(dsn)
+	// db, err := nix.CreateSQLiteDatabase(dsn)
+	db, err := nix.CreateGormDatabase(dsn)
 	if err != nil {
 		log.Fatal("Could not create DB connection:", err)
 	}
-	defer db.Close()
+	// defer db.Close()
 	if err := db.CreateTables(); err != nil {
 		log.Fatal(err)
 	}
@@ -32,7 +33,7 @@ func main() {
 	}
 	wg := &sync.WaitGroup{}
 	for _, post := range posts {
-		if err := db.SavePost(post); err != nil {
+		if err := db.SavePost(&post); err != nil {
 			log.Fatal("Could not save post:", err)
 		}
 		wg.Add(1)
@@ -46,7 +47,7 @@ func main() {
 				wg.Add(1)
 				go func(comment nix.Comment) {
 					defer wg.Done()
-					if err := db.SaveComment(comment); err != nil {
+					if err := db.SaveComment(&comment); err != nil {
 						log.Println(err)
 						return
 					}
