@@ -4,7 +4,9 @@ import (
 	"log"
 	"sync"
 
-	"github.com/vestlog/nix"
+	cl "github.com/vestlog/nix/pkg/client"
+	"github.com/vestlog/nix/pkg/storage"
+	str "github.com/vestlog/nix/pkg/structs"
 )
 
 var (
@@ -14,12 +16,12 @@ var (
 )
 
 func main() {
-	client, err := nix.CreateAPIClient(dsn, baseurl)
+	client, err := cl.CreateAPIClient(dsn, baseurl)
 	if err != nil {
 		log.Fatal("Error creating client:", err)
 	}
 	// db, err := nix.CreateSQLiteDatabase(dsn)
-	db, err := nix.CreateGormDatabase(dsn)
+	db, err := storage.CreateGormDatabase(dsn)
 	if err != nil {
 		log.Fatal("Could not create DB connection:", err)
 	}
@@ -37,7 +39,7 @@ func main() {
 			log.Fatal("Could not save post:", err)
 		}
 		wg.Add(1)
-		go func(post nix.Post) {
+		go func(post str.Post) {
 			defer wg.Done()
 			comments, err := client.GetComments(post.ID)
 			if err != nil {
@@ -45,7 +47,7 @@ func main() {
 			}
 			for _, comment := range comments {
 				wg.Add(1)
-				go func(comment nix.Comment) {
+				go func(comment str.Comment) {
 					defer wg.Done()
 					if err := db.SaveComment(&comment); err != nil {
 						log.Println(err)

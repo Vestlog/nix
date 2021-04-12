@@ -1,8 +1,10 @@
-package nix
+package storage
 
 import (
 	"log"
 	"testing"
+
+	str "github.com/vestlog/nix/pkg/structs"
 )
 
 var (
@@ -22,10 +24,10 @@ func TestSavePost(t *testing.T) {
 	if db == nil {
 		create()
 	}
-	if err := db.db.AutoMigrate(&Post{}); err != nil {
+	if err := db.db.AutoMigrate(&str.Post{}); err != nil {
 		t.Error("TestSavePost failed:", err)
 	}
-	if err := db.SavePost(&Post{
+	if err := db.SavePost(&str.Post{
 		UserID: 0,
 		ID:     0,
 		Title:  "",
