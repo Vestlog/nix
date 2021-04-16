@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	str "github.com/vestlog/nix/pkg/structs"
+	"github.com/vestlog/nix/pkg/models"
 	_ "modernc.org/sqlite"
 )
 
@@ -21,7 +21,7 @@ func (db *SQLiteDatabase) Close() error {
 	return db.db.Close()
 }
 
-func (db *SQLiteDatabase) SavePost(post *str.Post) error {
+func (db *SQLiteDatabase) SavePost(post *models.Post) error {
 	db.connectionPool <- struct{}{}
 	defer func() {
 		<-db.connectionPool
@@ -36,7 +36,7 @@ func (db *SQLiteDatabase) SavePost(post *str.Post) error {
 	return nil
 }
 
-func (db *SQLiteDatabase) SaveComment(comment *str.Comment) error {
+func (db *SQLiteDatabase) SaveComment(comment *models.Comment) error {
 	db.connectionPool <- struct{}{}
 	defer func() {
 		<-db.connectionPool

@@ -1,4 +1,4 @@
-package nix
+package models
 
 type Post struct {
 	UserID int

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	str "github.com/vestlog/nix/pkg/structs"
+	"github.com/vestlog/nix/pkg/models"
 )
 
 type APIClient struct {
@@ -28,23 +28,23 @@ func (c *APIClient) Get(url string) ([]byte, error) {
 	return data, nil
 }
 
-func unmarshalPosts(data []byte) ([]str.Post, error) {
-	posts := make([]str.Post, 0)
+func unmarshalPosts(data []byte) ([]models.Post, error) {
+	posts := make([]models.Post, 0)
 	if err := json.Unmarshal(data, &posts); err != nil {
 		return nil, fmt.Errorf("could not unmarshal: %w", err)
 	}
 	return posts, nil
 }
 
-func unmarshalComments(data []byte) ([]str.Comment, error) {
-	comments := make([]str.Comment, 0)
+func unmarshalComments(data []byte) ([]models.Comment, error) {
+	comments := make([]models.Comment, 0)
 	if err := json.Unmarshal(data, &comments); err != nil {
 		return nil, fmt.Errorf("could not unmarshal: %w", err)
 	}
 	return comments, nil
 }
 
-func (c *APIClient) GetPosts(userID int) ([]str.Post, error) {
+func (c *APIClient) GetPosts(userID int) ([]models.Post, error) {
 	req := fmt.Sprintf("posts?userId=%d", userID)
 	data, err := c.Get(req)
 	if err != nil {
@@ -57,7 +57,7 @@ func (c *APIClient) GetPosts(userID int) ([]str.Post, error) {
 	return posts, nil
 }
 
-func (c *APIClient) GetComments(postID int) ([]str.Comment, error) {
+func (c *APIClient) GetComments(postID int) ([]models.Comment, error) {
 	req := fmt.Sprintf("comments?postId=%d", postID)
 	data, err := c.Get(req)
 	if err != nil {

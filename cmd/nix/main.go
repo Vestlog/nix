@@ -5,8 +5,8 @@ import (
 	"sync"
 
 	cl "github.com/vestlog/nix/pkg/client"
+	"github.com/vestlog/nix/pkg/models"
 	"github.com/vestlog/nix/pkg/storage"
-	str "github.com/vestlog/nix/pkg/structs"
 )
 
 var (
@@ -39,7 +39,7 @@ func main() {
 			log.Fatal("Could not save post:", err)
 		}
 		wg.Add(1)
-		go func(post str.Post) {
+		go func(post models.Post) {
 			defer wg.Done()
 			comments, err := client.GetComments(post.ID)
 			if err != nil {
@@ -47,7 +47,7 @@ func main() {
 			}
 			for _, comment := range comments {
 				wg.Add(1)
-				go func(comment str.Comment) {
+				go func(comment models.Comment) {
 					defer wg.Done()
 					if err := db.SaveComment(&comment); err != nil {
 						log.Println(err)
