@@ -1,0 +1,24 @@
+{{define "index" -}}
+<!DOCTYPE html>
+<html>
+{{template "head" "Posts"}}
+
+<body>
+    {{template "header" false}}
+    <div class="container">
+        {{range . -}}
+        <div class="card mt-4 mb-4">
+            <div class="card-body">
+                <a href="/{{.ID}}">
+                    <h2 class="card-title">{{.Title}}</h2>
+                </a>
+                <p class="card-text">{{.Body}}</p>
+            </div>
+        </div>
+        {{end}}
+    </div>
+    {{template "footer"}}
+</body>
+
+</html>
+{{end}}

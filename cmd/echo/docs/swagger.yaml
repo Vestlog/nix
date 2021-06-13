@@ -1,0 +1,71 @@
+basePath: /api/v1/
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server.
+  title: NIX echo API
+  version: "0.1"
+paths:
+  /api/v1/comments:
+    get:
+      produces:
+      - application/json
+      - text/xml
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: object
+            type: array
+      summary: Get all comments
+  /api/v1/comments/{id}:
+    get:
+      description: Get a single comment for a given ID
+      parameters:
+      - description: comment id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      - text/xml
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+      summary: Get comment from ID
+  /api/v1/posts:
+    get:
+      produces:
+      - application/json
+      - text/xml
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: object
+            type: array
+      summary: Get all posts
+  /api/v1/posts/{id}:
+    get:
+      description: Get a single post for a given ID
+      parameters:
+      - description: post id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      - text/xml
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+      summary: Get post from ID
+swagger: "2.0"

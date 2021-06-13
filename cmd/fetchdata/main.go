@@ -11,7 +11,7 @@ import (
 
 var (
 	baseurl = "https://jsonplaceholder.typicode.com/"
-	dsn     = "storage.db"
+	dsn     = "storage.db?_foreign_keys=on"
 	userID  = 7
 )
 
