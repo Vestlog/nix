@@ -6,7 +6,7 @@ info:
   title: NIX echo API
   version: "0.1"
 paths:
-  /comments:
+  /api/v1/comments:
     get:
       produces:
       - application/json
@@ -19,7 +19,7 @@ paths:
               type: object
             type: array
       summary: Get all comments
-  /comments/{id}:
+  /api/v1/comments/{id}:
     get:
       description: Get a single comment for a given ID
       parameters:
@@ -37,7 +37,7 @@ paths:
           schema:
             type: object
       summary: Get comment from ID
-  /posts:
+  /api/v1/posts:
     get:
       produces:
       - application/json
@@ -50,7 +50,7 @@ paths:
               type: object
             type: array
       summary: Get all posts
-  /posts/{id}:
+  /api/v1/posts/{id}:
     get:
       description: Get a single post for a given ID
       parameters:

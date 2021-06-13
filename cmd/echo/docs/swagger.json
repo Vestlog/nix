@@ -9,7 +9,7 @@
     "host": "localhost:8080",
     "basePath": "/api/v1/",
     "paths": {
-        "/comments": {
+        "/api/v1/comments": {
             "get": {
                 "produces": [
                     "application/json",
@@ -29,7 +29,7 @@
                 }
             }
         },
-        "/comments/{id}": {
+        "/api/v1/comments/{id}": {
             "get": {
                 "description": "Get a single comment for a given ID",
                 "produces": [
@@ -56,7 +56,7 @@
                 }
             }
         },
-        "/posts": {
+        "/api/v1/posts": {
             "get": {
                 "produces": [
                     "application/json",
@@ -76,7 +76,7 @@
                 }
             }
         },
-        "/posts/{id}": {
+        "/api/v1/posts/{id}": {
             "get": {
                 "description": "Get a single post for a given ID",
                 "produces": [

@@ -24,7 +24,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/comments": {
+        "/api/v1/comments": {
             "get": {
                 "produces": [
                     "application/json",
@@ -44,7 +44,7 @@ var doc = `{
                 }
             }
         },
-        "/comments/{id}": {
+        "/api/v1/comments/{id}": {
             "get": {
                 "description": "Get a single comment for a given ID",
                 "produces": [
@@ -71,7 +71,7 @@ var doc = `{
                 }
             }
         },
-        "/posts": {
+        "/api/v1/posts": {
             "get": {
                 "produces": [
                     "application/json",
@@ -91,7 +91,7 @@ var doc = `{
                 }
             }
         },
-        "/posts/{id}": {
+        "/api/v1/posts/{id}": {
             "get": {
                 "description": "Get a single post for a given ID",
                 "produces": [

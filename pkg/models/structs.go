@@ -20,7 +20,7 @@ type Post struct {
 }
 
 type Comment struct {
-	Post   *Post `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"-"`
+	Post   *Post `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	PostID int
 	ID     int
 	Name   string

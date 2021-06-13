@@ -17,7 +17,7 @@ type EchoApi struct {
 // @Produce json
 // @Produce xml
 // @Success 200 {array} object
-// @Router /posts [get]
+// @Router /api/v1/posts [get]
 func (api *EchoApi) GetAllPosts(c echo.Context) error {
 	status := http.StatusOK
 	var data interface{}
@@ -38,7 +38,7 @@ func (api *EchoApi) GetAllPosts(c echo.Context) error {
 // @Produce xml
 // @Param id path int true "post id"
 // @Success 200 {object} object
-// @Router /posts/{id} [get]
+// @Router /api/v1/posts/{id} [get]
 func (api *EchoApi) GetPost(c echo.Context) error {
 	id := c.Param("id")
 	status := http.StatusOK
@@ -60,7 +60,7 @@ func (api *EchoApi) GetPost(c echo.Context) error {
 // @Produce json
 // @Produce xml
 // @Success 200 {array} object
-// @Router /comments [get]
+// @Router /api/v1/comments [get]
 func (api *EchoApi) GetAllComments(c echo.Context) error {
 	status := http.StatusOK
 	var data interface{}
@@ -80,7 +80,7 @@ func (api *EchoApi) GetAllComments(c echo.Context) error {
 // @Produce xml
 // @Param id path int true "comment id"
 // @Success 200 {object} object
-// @Router /comments/{id} [get]
+// @Router /api/v1/comments/{id} [get]
 func (api *EchoApi) GetComment(c echo.Context) error {
 	id := c.Param("id")
 	status := http.StatusOK
