@@ -24,7 +24,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/comments": {
+        "/comments": {
             "get": {
                 "produces": [
                     "application/json",
@@ -44,7 +44,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/comments/{id}": {
+        "/comments/{id}": {
             "get": {
                 "description": "Get a single comment for a given ID",
                 "produces": [
@@ -71,7 +71,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/posts": {
+        "/posts": {
             "get": {
                 "produces": [
                     "application/json",
@@ -91,7 +91,7 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/posts/{id}": {
+        "/posts/{id}": {
             "get": {
                 "description": "Get a single post for a given ID",
                 "produces": [
@@ -134,7 +134,7 @@ type swaggerInfo struct {
 var SwaggerInfo = swaggerInfo{
 	Version:     "0.1",
 	Host:        "localhost:8080",
-	BasePath:    "/",
+	BasePath:    "/api/v1/",
 	Schemes:     []string{},
 	Title:       "NIX echo API",
 	Description: "This is a sample server.",

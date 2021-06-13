@@ -25,8 +25,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	a := &api.EchoApi{db}
+	a := &api.EchoApi{
+		DB: db,
+	}
 	e := echo.New()
+	// e.Debug = true
+	// e.Use(middleware.Logger())
 
 	e.GET("/api/v1/posts", a.GetAllPosts)
 	e.GET("/api/v1/posts/:id", a.GetPost)
