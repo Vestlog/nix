@@ -4,14 +4,16 @@
 {{template "head" .Post.Title}}
 
 <body>
-    {{template "header"}}
+    {{template "header" .IsSignedIn}}
     <div class="container">
         <div class="card mt-4 mb-4">
             <div class="card-body">
                 <h2 class="card-title">{{.Post.Title}}</h2>
                 <p class="card-text">{{.Post.Body}}</p>
+                {{if .IsSignedIn}}
                 <a class="btn btn-primary" href="{{.Prefix}}/{{.Post.ID}}/editpost">Edit</a>
                 <a class="btn btn-primary" href="{{.Prefix}}/{{.Post.ID}}/deletepost">Delete</a>
+                {{end}}
             </div>
         </div>
         <h1>Comments</h1>
@@ -19,6 +21,7 @@
         <h3>{{.Name}}</h3>
         <p>{{.Body}}</p>
         {{end}}
+        {{if .IsSignedIn}}
         <form class="row g-3 mb-4" action="/admin/{{.Post.ID}}/addcomment" method="POST">
             <h2>Add Comment</h2>
             <div class="col">
@@ -36,6 +39,7 @@
                 <button class="btn btn-primary">Submit</button>
             </div>
         </form>
+        {{end}}
     </div>
     {{template "footer"}}
 </body>

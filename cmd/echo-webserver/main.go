@@ -19,7 +19,6 @@ func main() {
 	flag.Parse()
 	LoadConfig(*conffilepath)
 
-	// WARNING: REMOVE
 	goauth := &oauth2.Config{
 		ClientID:     GlobalConfig.GoogleOAuth.ClientID,
 		ClientSecret: GlobalConfig.GoogleOAuth.ClientSecret,

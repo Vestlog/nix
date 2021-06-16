@@ -34,12 +34,19 @@ func (ctr *Controller) SessionMiddleware(next echo.HandlerFunc) echo.HandlerFunc
 
 func (ctr *Controller) RestrictAccess(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		user, err := ctr.Store.GetData(c.Request(), ctr.UserField)
-		if err != nil || user == nil {
+		if !ctr.IsSignedIn(c) {
 			return echo.NewHTTPError(http.StatusForbidden, "FORBIDDEN")
 		}
 		return next(c)
 	}
+}
+
+func (ctr *Controller) IsSignedIn(c echo.Context) bool {
+	user, err := ctr.Store.GetData(c.Request(), ctr.UserField)
+	if err != nil || user == nil {
+		return false
+	}
+	return true
 }
 
 func (ctr *Controller) GoogleLogin(c echo.Context) error {
@@ -64,11 +71,11 @@ func (ctr *Controller) GoogleCallback(c echo.Context) error {
 }
 
 func (ctr *Controller) FacebookCallback(c echo.Context) error {
-	return ctr.Login(c, ctr.FacebookAuth)
+	return ctr.Callback(c, ctr.FacebookAuth)
 }
 
 func (ctr *Controller) Callback(c echo.Context, auth *auth.OAuth) error {
-	if err := ctr.StateOK(c); err != nil {
+	if err := ctr.OAuthCallbackStateOK(c); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 	userinfo, err := auth.GetUserData(c.Request().Context(), c.QueryParam("code"))
@@ -106,7 +113,7 @@ func (ctr *Controller) Signout(c echo.Context) error {
 	return c.Redirect(http.StatusFound, "/")
 }
 
-func (ctr *Controller) StateOK(c echo.Context) error {
+func (ctr *Controller) OAuthCallbackStateOK(c echo.Context) error {
 	state, err := ctr.Store.GetString(c.Request(), "state")
 	if err != nil {
 		return fmt.Errorf("error: could not get session field: %w", err)
@@ -131,11 +138,13 @@ func (ctr *Controller) EditPostForm(c echo.Context) error {
 		return fmt.Errorf("error getting post from database: %w", err)
 	}
 	data := struct {
-		Action string
-		Post   *models.Post
+		Action     string
+		Post       *models.Post
+		IsSignedIn bool
 	}{
-		Action: fmt.Sprintf("/%s/editpost", postid),
-		Post:   post,
+		Action:     fmt.Sprintf("/%s/editpost", postid),
+		Post:       post,
+		IsSignedIn: ctr.IsSignedIn(c),
 	}
 	return c.Render(http.StatusOK, "postform", data)
 }
@@ -161,11 +170,13 @@ func (ctr *Controller) EditPost(c echo.Context) error {
 
 func (ctr *Controller) CreatePostForm(c echo.Context) error {
 	data := struct {
-		Action string
-		Post   *models.Post
+		Action     string
+		Post       *models.Post
+		IsSignedIn bool
 	}{
-		"/admin/createpost",
-		new(models.Post),
+		Action:     "/admin/createpost",
+		Post:       new(models.Post),
+		IsSignedIn: ctr.IsSignedIn(c),
 	}
 	return c.Render(http.StatusOK, "postform", data)
 }
@@ -200,7 +211,14 @@ func (ctr *Controller) GetAllPosts(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	return c.Render(http.StatusOK, "index", posts)
+	data := struct {
+		Posts      []models.Post
+		IsSignedIn bool
+	}{
+		Posts:      posts,
+		IsSignedIn: ctr.IsSignedIn(c),
+	}
+	return c.Render(http.StatusOK, "index", data)
 }
 
 func (ctr *Controller) GetPost(c echo.Context) error {
@@ -223,17 +241,19 @@ func (ctr *Controller) GetPost(c echo.Context) error {
 		user = &models.User{}
 	}
 	data := struct {
-		Post     *models.Post
-		Comments []models.Comment
-		Prefix   string
-		Name     string
-		Email    string
+		Post       *models.Post
+		Comments   []models.Comment
+		Prefix     string
+		Name       string
+		Email      string
+		IsSignedIn bool
 	}{
-		Post:     post,
-		Comments: comments,
-		Prefix:   "/admin",
-		Name:     user.Name,
-		Email:    user.Email,
+		Post:       post,
+		Comments:   comments,
+		Prefix:     "/admin",
+		Name:       user.Name,
+		Email:      user.Email,
+		IsSignedIn: ctr.IsSignedIn(c),
 	}
 	return c.Render(http.StatusOK, "post", data)
 }

@@ -3,7 +3,7 @@
 {{template "head" "Create your post"}}
 
 <body>
-    {{template "header"}}
+    {{template "header" .IsSignedIn}}
     <div class="container">
         <form action="{{.Action}}" method="POST">
             <div class="mb-4">
