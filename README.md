@@ -6,9 +6,11 @@
 
 `cmd/echo-webserver` -- HTTP-server based on ECHO-framework with OAuth support.
 
-GORM over SQLite is used for storage.
+GORM and SQLite are used for storage.
 
 ## echo-webserver
+
+Use `go run ./cmd/echo-webserver/` or `run-webserver.sh` to run webserver.
 
 `-conf` flag is used to provide path to JSON configuration file. Default path is `./conf.json`.
 
